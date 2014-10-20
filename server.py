@@ -6,6 +6,10 @@ en UDP simple
 """
 
 import SocketServer
+import sys
+
+
+
 
 
 class EchoHandler(SocketServer.DatagramRequestHandler):
@@ -14,6 +18,7 @@ class EchoHandler(SocketServer.DatagramRequestHandler):
     """
 
     def handle(self):
+        print self.client_address
         # Escribe dirección y puerto del cliente (de tupla client_address)
         self.wfile.write("Hemos recibido tu peticion")
         while 1:
@@ -24,7 +29,8 @@ class EchoHandler(SocketServer.DatagramRequestHandler):
                 break
 
 if __name__ == "__main__":
+    listarg = sys.argv
     # Creamos servidor de eco y escuchamos
-    serv = SocketServer.UDPServer(("", 6001), EchoHandler)
+    serv = SocketServer.UDPServer(("", int(listarg[1])), EchoHandler)
     print "Lanzando servidor UDP de eco..."
     serv.serve_forever()
