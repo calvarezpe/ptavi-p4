@@ -14,6 +14,13 @@ class SIPRegisterHandler(SocketServer.DatagramRequestHandler):
     """
     direcciones = {}
     
+    def register2file(self):
+        fich = open("registered.txt", "r+")
+        if self.expired == "0":
+            print "borrar"
+        elif self.expired > "0":
+            print "añadir"
+    
     def handle(self):
         # Escribe dirección y puerto del cliente (de tupla client_address)
         print self.client_address
@@ -26,18 +33,22 @@ class SIPRegisterHandler(SocketServer.DatagramRequestHandler):
             elements = line.split()
             if elements[0] == "REGISTER":
                 direccion = (elements[1].split(":"))[1];
-                if elements[-1] > "0":
+                self.expired = elements[-1]
+                if self.expired > "0":
                     self.direcciones[direccion] = self.client_address[0]
                     self.wfile.write("SIP/2.0 200 OK \r\n\r\n")
                     print "Añadido ", direccion
-                elif elements[-1] == "0":
+                    self.register2file()
+                elif self.expired == "0":
                     if self.direcciones.has_key(direccion):
                         del self.direcciones[direccion]
+                        self.wfile.write("SIP/2.0 200 OK \r\n\r\n")
                         print "Borrado ", direccion
+                        self.register2file() 
                     else:
                         print "No encontrado"
                 print self.direcciones
-
+        
 if __name__ == "__main__":
     # Creamos servidor de eco y escuchamos
     serv = SocketServer.UDPServer(("", int(sys.argv[1])), SIPRegisterHandler)
