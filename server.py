@@ -26,8 +26,16 @@ class SIPRegisterHandler(SocketServer.DatagramRequestHandler):
             elements = line.split()
             if elements[0] == "REGISTER":
                 direccion = (elements[1].split(":"))[1];
-                self.direcciones[direccion] = self.client_address[0]
-                self.wfile.write("SIP/2.0 200 OK \r\n\r\n")
+                if elements[-1] > "0":
+                    self.direcciones[direccion] = self.client_address[0]
+                    self.wfile.write("SIP/2.0 200 OK \r\n\r\n")
+                    print "Añadido ", direccion
+                elif elements[-1] == "0":
+                    if self.direcciones.has_key(direccion):
+                        del self.direcciones[direccion]
+                        print "Borrado ", direccion
+                    else:
+                        print "No encontrado"
                 print self.direcciones
 
 if __name__ == "__main__":
