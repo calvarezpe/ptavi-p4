@@ -16,12 +16,17 @@ class SIPRegisterHandler(SocketServer.DatagramRequestHandler):
     diccionario={}
     
     def procesarmensaje(self,line):
-       mensaje = line.split(" ")
-       if mensaje[0] == "REGISTRER":
+        mensaje = line.split(" ")
+        
+        if mensaje[0] == "REGISTRER":
             direccion= mensaje[1].split(":")
             self.diccionario[direccion[-1]]= self.client_address[0]
             self.wfile.write("SIP/2.0 200 OK" + '\r\n' + '\r\n')
-            
+            print "El cliente nos manda " + line
+            if int(mensaje[-1]) == 0:
+                del self.diccionario[direccion[-1]]
+                self.wfile.write("SIP/2.0 200 OK" + '\r\n' + '\r\n')
+           
 
     def handle(self):
         # Escribe dirección y puerto del cliente (de tupla client_address)
@@ -32,8 +37,6 @@ class SIPRegisterHandler(SocketServer.DatagramRequestHandler):
             print self.client_address[0] + " " + str(self.client_address[1])
             line = self.rfile.read()
             self.procesarmensaje(line)
-            print "El cliente nos manda " + line
-            print self.diccionario
             if not line:
                 break
 
