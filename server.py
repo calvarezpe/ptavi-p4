@@ -18,22 +18,27 @@ class SIPRegisterHandler(SocketServer.DatagramRequestHandler):
     """
 
     def handle(self):
-        print self.client_address
+        print "El cliente " + str(self.client_address) + " nos manda:"
         # Escribe dirección y puerto del cliente (de tupla client_address)
+        User = ""
         while 1:
-            # Leyendo línea a línea lo que nos envía el cliente
+            # Leyendo mensaje a mensaje lo que nos envía el cliente
             line = self.rfile.read()
-            print "El cliente nos manda " + line
-            ListaMitad = line.split(':')
-            Type = ListaMitad[0].split(' ')[0]
-            
-            if Type == "REGISTER":
-                User = ListaMitad[-1].split(' ')[0]
-                DiccUsers[User] = self.client_address[0]
-                print DiccUsers
-                self.wfile.write("SIP/1.0 200 OK\r\n\r\n")
             if not line:
                 break
+            else:
+                print line
+                WordList = line.split(' ')
+                User = WordList[1].split(':')[1]
+                DiccUsers[User] = self.client_address[0]
+                #Lo añadimos al diccionario de usuarios
+                Time = int(WordList[3])
+                if Time == 0:
+                    del DiccUsers[User]
+                    #Lo eliminamos del diccionario
+                print "Enviando: SIP/1.0 200 OK"
+                self.wfile.write("SIP/1.0 200 OK\r\n\r\n")
+            
 
 if __name__ == "__main__":
     DiccUsers = {}  # Creo el diccionario de usuarios e IPs
