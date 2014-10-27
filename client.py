@@ -16,11 +16,8 @@ if len(lista) == 6:
     PORT = int(lista[2])
 
     # Contenido que vamos a enviar
-    if lista[3] == "register":
-        LINE = lista[3].upper() + " sip:" + lista[4] + " SIP/2.0 \r\n"
-        LINE = LINE + "Expires: " + lista[5] + "\r\n\r\n"
-    else:
-        LINE = " ".join(lista[3:])
+    LINE = lista[3].upper() + " sip:" + lista[4] + " SIP/2.0 \r\n"
+    LINE = LINE + "Expires: " + lista[5] + "\r\n\r\n"
 
     # Creamos el socket, lo configuramos y lo atamos a un servidor/puerto
     my_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -28,7 +25,7 @@ if len(lista) == 6:
     my_socket.connect((SERVER, PORT))
 
     print "Enviando: " + LINE
-    my_socket.send(LINE) #!!! line + \r\n ???
+    my_socket.send(LINE)
     data = my_socket.recv(1024)
 
     print 'Recibido -- ', data
