@@ -46,9 +46,9 @@ my_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 my_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 my_socket.connect((SERVER, PORT))
 
-print "Enviando: " + TYPE.upper() + " sip:" + LINE + " SIP/1.0"
+print "Enviando: " + TYPE.upper() + " sip:" + LINE + " SIP/2.0"
 print "\t  Expires: " + EXPIRES
-my_socket.send(TYPE.upper() + " sip:" + LINE + " SIP/1.0" + "\r\n"
+my_socket.send(TYPE.upper() + " sip:" + LINE + " SIP/2.0" + "\r\n"
                + "Expires: " + str(EXPIRES) + "\r\n\r\n")
 # Mandamos un solo string
 data = my_socket.recv(1024)
