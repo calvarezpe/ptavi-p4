@@ -42,7 +42,7 @@ class SIPRegisterHandler(SocketServer.DatagramRequestHandler):
         
     def caducidad(self, hora_actual):
         """
-        Borra usuarios caducados
+        Borra usuarios caducados.
         """   
             
         claves=self.diccionario.keys()
