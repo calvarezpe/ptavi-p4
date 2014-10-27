@@ -16,6 +16,10 @@ class SIPRegisterHandler(SocketServer.DatagramRequestHandler):
     """
 
     def handle(self):
+        """
+        Manejador de los mensajes recibidos
+        """
+
         print "El cliente " + str(self.client_address) + " nos manda:"
         # Escribe dirección y puerto del cliente (de tupla client_address)
         while 1:
@@ -47,6 +51,10 @@ class SIPRegisterHandler(SocketServer.DatagramRequestHandler):
                     print "Método desconocido"
 
     def register2file(self):
+        """
+        Editor de archivos txt de registro de usuarios
+        """
+
         txt = open('registered.txt', 'w')
         txt.write('User\tIP\tExpires\n')
         for User in DiccUsers.keys():
@@ -57,6 +65,10 @@ class SIPRegisterHandler(SocketServer.DatagramRequestHandler):
             txt.write(User + '\t' + IP + '\t' + TimeExp + '\n')
         txt.close()
 
+
+"""
+Programa Principal
+"""
 
 if __name__ == "__main__":
     DiccUsers = {}  # Creo el diccionario de usuarios e IPs

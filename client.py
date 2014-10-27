@@ -13,6 +13,11 @@ listarg = sys.argv
 # Cliente UDP simple.
 
 try:
+
+    """
+    Asignamiento de los parámetros introducidos por la línea de comandos
+    a variables globales
+    """
     # Dirección IP del servidor.
     SERVER = listarg[1]
     PORT = int(listarg[2])
@@ -31,6 +36,11 @@ except IndexError:
 except ValueError:
     sys.exit('client.py ip puerto register sip_address expires_value')
 
+
+"""
+Inicio del protocolo de envío de mensajes al servidor
+"""
+
 # Creamos el socket, lo configuramos y lo atamos a un servidor/puerto
 my_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 my_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -39,7 +49,7 @@ my_socket.connect((SERVER, PORT))
 print "Enviando: " + TYPE.upper() + " sip:" + LINE + " SIP/1.0"
 print "\t  Expires: " + EXPIRES
 my_socket.send(TYPE.upper() + " sip:" + LINE + " SIP/1.0" + "\r\n"
-                   + "Expires: " + str(EXPIRES) + "\r\n\r\n")
+               + "Expires: " + str(EXPIRES) + "\r\n\r\n")
 # Mandamos un solo string
 data = my_socket.recv(1024)
 
