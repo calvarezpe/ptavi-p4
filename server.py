@@ -11,12 +11,19 @@ import time
 
 class SIPRegisterHandler(SocketServer.DatagramRequestHandler):
     """
-    Echo server class
+    SIPRegister server class
     """
    
     diccionario={}
     
     def procesarmensaje(self,line):
+        """
+        Save and delete users
+        
+        Keyword arguments:
+        
+        line -- client message
+        """
         mensaje = line.split(" ")
         fecha_entrada=time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(time.time()))
         hora_actual=time.mktime(time.strptime(fecha_entrada,'%Y-%m-%d %H:%M:%S'))
@@ -34,6 +41,10 @@ class SIPRegisterHandler(SocketServer.DatagramRequestHandler):
         self.register2file()
         
     def caducidad(self, hora_actual):
+        """
+        delete expired users
+        """   
+            
         claves=self.diccionario.keys()
         for i in claves:
             hora_entrada=time.strptime(self.diccionario[i][1],'%Y-%m-%d %H:%M:%S')
@@ -43,6 +54,9 @@ class SIPRegisterHandler(SocketServer.DatagramRequestHandler):
         
 
     def register2file(self):
+        """
+        create users file
+        """
         fich = open("registered.txt", "w")
         claves=self.diccionario.keys()
         for i in claves:
