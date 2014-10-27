@@ -45,8 +45,8 @@ class SIPRegisterHandler(SocketServer.DatagramRequestHandler):
                             del DiccUsers[User]
                             #Lo eliminamos del diccionario
                     self.register2file()
-                    print "Enviando: SIP/1.0 200 OK"
-                    self.wfile.write("SIP/1.0 200 OK\r\n\r\n")
+                    print "Enviando: SIP/2.0 200 OK"
+                    self.wfile.write("SIP/2.0 200 OK\r\n\r\n")
                 else:
                     print "Método desconocido"
 
