@@ -7,6 +7,7 @@ en UDP simple
 
 import SocketServer
 import sys
+import time
 
 class SIPRegisterHandler(SocketServer.DatagramRequestHandler):
     """
@@ -18,15 +19,23 @@ class SIPRegisterHandler(SocketServer.DatagramRequestHandler):
     def procesarmensaje(self,line):
         mensaje = line.split(" ")
         
-        if mensaje[0] == "REGISTRER":
+        if mensaje[0] == "REGISTER":
             direccion= mensaje[1].split(":")
-            self.diccionario[direccion[-1]]= self.client_address[0]
+            lista=[self.client_address[0],time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(time.time()))]
+            self.diccionario[direccion[-1]]= lista
             self.wfile.write("SIP/2.0 200 OK" + '\r\n' + '\r\n')
             print "El cliente nos manda " + line
+            self.resgister2file()
             if int(mensaje[-1]) == 0:
                 del self.diccionario[direccion[-1]]
                 self.wfile.write("SIP/2.0 200 OK" + '\r\n' + '\r\n')
-           
+
+    def resgister2file(self):
+        fich = open("registered.txt", "w")
+        claves=self.diccionario.keys()
+        for i in claves:
+           linea= i + '\t' + self.diccionario[i][0] + '\t' + self.diccionario[i][1]
+           fich.write(linea)
 
     def handle(self):
         # Escribe dirección y puerto del cliente (de tupla client_address)
