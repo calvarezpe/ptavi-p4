@@ -14,10 +14,10 @@ listarg = sys.argv
 
 try:
 
-    """
-    Asignamiento de los parámetros introducidos por la línea de comandos
-    a variables globales
-    """
+
+#    Asignamiento de los parámetros introducidos por la línea de comandos
+#    a variables globales
+
     # Dirección IP del servidor.
     SERVER = listarg[1]
     PORT = int(listarg[2])
@@ -37,9 +37,8 @@ except ValueError:
     sys.exit('client.py ip puerto register sip_address expires_value')
 
 
-"""
-Inicio del protocolo de envío de mensajes al servidor
-"""
+#Inicio del protocolo de envío de mensajes al servidor
+
 
 # Creamos el socket, lo configuramos y lo atamos a un servidor/puerto
 my_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
