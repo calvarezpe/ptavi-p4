@@ -65,15 +65,15 @@ class SIPRegisterHandler(SocketServer.DatagramRequestHandler):
         claves = self.diccionario.keys()
         for i in claves:
             linea1 = i + '\t' + self.diccionario[i][0] + " " + '\t'
-            linea2 = self.diccionario[i][1] + '\r\n'
-            fich.write(linea1 + linea2)
+            linea1 += self.diccionario[i][1] + '\r\n'
+            fich.write(linea1)
 
     def handle(self):
         # Escribe dirección y puerto del cliente (de tupla client_address)
         self.wfile.write("Hemos recibido tu peticion" + '\r\n')
         cadena1 = "IP: " + self.client_address[0] + " " + "PORT:"
-        cadena2 = str(self.client_address[1])
-        print cadena1 + cadena2
+        cadena1 += str(self.client_address[1])
+        print cadena1
         while 1:
             # Leyendo línea a línea lo que nos envía el cliente
             line = self.rfile.read()
