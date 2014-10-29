@@ -1,8 +1,7 @@
 #!/usr/bin/python
 # -*- coding: iso-8859-15 -*-
 """
-Clase (y programa principal) para un servidor de eco
-en UDP simple
+Clase (y programa principal) para un servidor register sip
 """
 
 import SocketServer
@@ -12,7 +11,7 @@ import time
 
 class SIPRegisterHandler(SocketServer.DatagramRequestHandler):
     """
-    Echo server class
+    SIP register server class
     """
 
     def handle(self):
@@ -75,5 +74,5 @@ if __name__ == "__main__":
     listarg = sys.argv
     # Creamos servidor de eco y escuchamos
     serv = SocketServer.UDPServer(("", int(listarg[1])), SIPRegisterHandler)
-    print "Lanzando servidor UDP de eco..."
+    print "Lanzando servidor register sip"
     serv.serve_forever()
